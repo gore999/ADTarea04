@@ -6,26 +6,36 @@
 package com.mycompany.adtarea04;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.*;
 
 /**
  *
  * @author Carlos
  */
-public class Empleado implements Serializable{
-    int id;
+@Entity
+public class Empleado implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, nullable = false)
+    Long id;
+    @Column(name="nombre")
     private String nombre;
+    @Column(name="apellidos")
     private String apellidos;
+    @OneToMany(mappedBy="empleado")
+    private Set<TiendaEmpleado> tiendasDelEmpleado=new HashSet();
+
     //Constructor vacio para hibernate
     public Empleado() {
     }
 
-    public Empleado(int id, String nombre, String apellidos) {
-        this.id = id;
+    public Empleado(String nombre, String apellidos) {
         this.nombre = nombre;
         this.apellidos = apellidos;
     }
 
-    
     public String getNombre() {
         return nombre;
     }
@@ -42,11 +52,11 @@ public class Empleado implements Serializable{
         this.apellidos = apellidos;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,16 +65,15 @@ public class Empleado implements Serializable{
         return "Empleado{" + "id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + '}';
     }
 
-   
     /**/
     @Override
     public boolean equals(Object obj) {
-        Empleado emp=(Empleado)obj; //To change body of generated methods, choose Tools | Templates.
-        if(emp.nombre.equals(this.nombre) && emp.apellidos.equals(this.apellidos)){
+        Empleado emp = (Empleado) obj; //To change body of generated methods, choose Tools | Templates.
+        if (emp.nombre.equals(this.nombre) && emp.apellidos.equals(this.apellidos)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
+
 }

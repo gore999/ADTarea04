@@ -212,7 +212,7 @@ public class Repositorio {//Clase singleton para operar con datos.
         String sql = "SELECT * FROM empregados,empleados_tendas WHERE empleados_tendas.idTenda=? AND empregados.id=empleados_tendas.idEmpregado";
         try {
             PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, tiendaAux.id);//Obtener los productos y cantidades referentes a una tienda en concreto, por id de tienda. 
+            pstmt.setLong(1, tiendaAux.id);//Obtener los productos y cantidades referentes a una tienda en concreto, por id de tienda. 
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {//Recuperar datos del resultset.
                 int id = rs.getInt("id");
@@ -251,7 +251,7 @@ public class Repositorio {//Clase singleton para operar con datos.
                 ResultSet keys = pstmt.getGeneratedKeys();
                 System.out.println("Rtdo:" + rtdo);
                 keys.next();
-                tienda.id = keys.getInt(1);
+                tienda.id = keys.getLong(1);
                 tiendas.add(tienda);//Añadir la tienda al arraylist.
             } catch (SQLException ex) {
                 Logger.getLogger(Repositorio.class.getName()).log(Level.SEVERE, null, ex);
@@ -268,15 +268,15 @@ public class Repositorio {//Clase singleton para operar con datos.
         String sqldelRelacionesEmp = "DELETE FROM empleados_tendas WHERE idTenda=?";
         try {//Borrar de base de datos.
             PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, tienda.id);
+            pstmt.setLong(1, tienda.id);
             pstmt.execute();
             //Borrar relaciones con productos
             pstmt = con.prepareStatement(sqldelRelacionesProd);
-            pstmt.setInt(1, tienda.id);
+            pstmt.setLong(1, tienda.id);
             pstmt.execute();
             //Borrar relaciones con productos
             pstmt = con.prepareStatement(sqldelRelacionesProd);
-            pstmt.setInt(1, tienda.id);
+            pstmt.setLong(1, tienda.id);
             pstmt.execute();
             //Borrar del ArrayList
             tiendas.remove(tienda);//Añadir la tienda al arraylist.
@@ -386,7 +386,7 @@ public class Repositorio {//Clase singleton para operar con datos.
         String sql = "REPLACE INTO produtos_tendas(idTenda,idproduto,cantidad) VALUES(?,?,?)";
         try {
             PreparedStatement pstmt = con.prepareStatement(sql);//Necesitamos la key de insercion.
-            pstmt.setInt(1, tiendaAux.getId());
+            pstmt.setLong(1, tiendaAux.getId());
             pstmt.setInt(2, productoAux.getIdentificador());
             pstmt.setInt(3, cantidad);
             pstmt.execute();
@@ -402,7 +402,7 @@ public class Repositorio {//Clase singleton para operar con datos.
         try {//Borrar de base de datos.
             PreparedStatement pstmt = con.prepareStatement(sql2);
             pstmt.setInt(1, p.getIdentificador());
-            pstmt.setInt(2, tienda.getId());
+            pstmt.setLong(2, tienda.getId());
             pstmt.execute();
             //Borrar del ArrayList
             productosTienda.remove(p);//Añadir la tienda al arraylist.
@@ -423,7 +423,7 @@ public class Repositorio {//Clase singleton para operar con datos.
         String sql = "REPLACE INTO empleados_tendas(idTenda,idEmpregado,horas) VALUES(?,?,?)";
         try {
             PreparedStatement pstmt = con.prepareStatement(sql);//Necesitamos la key de insercion.
-            pstmt.setInt(1, tiendaAux.id);
+            pstmt.setLong(1, tiendaAux.id);
             pstmt.setInt(2, empleadoAux.getId());
             pstmt.setInt(3, horas);
             pstmt.execute();
@@ -439,7 +439,7 @@ public class Repositorio {//Clase singleton para operar con datos.
         try {//Borrar de base de datos.
             PreparedStatement pstmt = con.prepareStatement(sql2);
             pstmt.setInt(1, emp.getId());
-            pstmt.setInt(2, tienda.getId());
+            pstmt.setLong(2, tienda.getId());
             pstmt.execute();
             //Borrar del ArrayList
             empleadosTienda.remove(emp);//Eliminar empleado del arraylist.

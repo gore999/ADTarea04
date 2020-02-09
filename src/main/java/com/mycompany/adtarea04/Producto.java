@@ -16,8 +16,9 @@ import javax.persistence.*;
 @Table(name="productos")
 public class Producto implements Serializable{
     @Id
-    @Column(name="id")
-    private int identificador;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="id",updatable=false,nullable=false)
+    private Long identificador;
     @Column(name="nombre")
     private String nombre;
     @Column(name="descripcion")
@@ -29,18 +30,17 @@ public class Producto implements Serializable{
     public Producto() {
     }
 
-    public Producto(int identificador, String nombre, String descripcion, double precio) {
-        this.identificador = identificador;
+    public Producto(String nombre, String descripcion, double precio) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
     }
 
-    public int getIdentificador() {
+    public Long getIdentificador() {
         return identificador;
     }
 
-    public void setIdentificador(int identificador) {
+    public void setIdentificador(Long identificador) {
         this.identificador = identificador;
     }
 

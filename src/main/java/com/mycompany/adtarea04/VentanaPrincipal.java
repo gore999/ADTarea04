@@ -972,7 +972,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             String ciudadTenda = TextCiudad.getText();
             String provTenda = ComboProvincia.getSelectedItem().toString();
             //Crear un objeto Tienda
-            Tienda t = new Tienda(0, nomeTenda, ciudadTenda, provTenda);// Le ponemos un id cualquiera, solo a efectos de ajustarnos al constructor.
+            Tienda t = new Tienda(0L, nomeTenda, ciudadTenda, provTenda);// Le ponemos un id cualquiera, solo a efectos de ajustarnos al constructor.
             //Proceder al guardado de datos. Ejecutar el metodo insertTienda en una instancia del repositorio.
             Repositorio rep = Repositorio.getInstance();
             rep.insertTienda(t, tiendas);//Pasamos el objeto y el listado de tiendas.

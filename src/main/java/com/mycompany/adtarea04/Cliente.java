@@ -15,6 +15,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="clientes")
 public class Cliente implements Serializable{
+    //Los clientes no tienen relacion con ninguna tabla.
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;

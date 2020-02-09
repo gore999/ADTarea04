@@ -5,21 +5,37 @@
  */
 package com.mycompany.adtarea04;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import javax.persistence.*;
 
 /**
  *
  * @author Carlos
  */
-public class Tienda {
-    int id;
+@Entity
+public class Tienda implements Serializable {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="id",updatable=false,nullable=false)
+    Long id;
+    @Column(name="nombre")
     private String nombre;
+    @Column(name="ciudad")
     private String ciudad;
+    @Column(name="provincia")
     private String provincia;
-    //Creamos 2 Maps
+    
+    @OneToMany(mappedBy="tienda")
+    private Set<TiendaEmpleado> empleadosXTienda=new HashSet();
+    
+//Creamos 2 Maps
     //Productos: Relacion id del producto con su cantidad. 
+    
     private Map<Integer,Integer> productos;
     //Empleados: Relacion id del empleado con las horas que hace en la tienda.
     private Map <Integer,Double> empleados;
@@ -27,7 +43,7 @@ public class Tienda {
     public Tienda() {
     }
     
-    public Tienda(int id, String nombre, String ciudad, String provincia) {
+    public Tienda(Long id, String nombre, String ciudad, String provincia) {
         this.id=id;
         this.nombre = nombre;
         this.ciudad = ciudad;
@@ -69,11 +85,11 @@ public class Tienda {
         this.productos.remove(p);
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
