@@ -16,9 +16,8 @@ import javax.persistence.*;
 @Table(name="productos")
 public class Producto implements Serializable{
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id",updatable=false,nullable=false)
-    private Long identificador;
+    private Long id;
     @Column(name="nombre")
     private String nombre;
     @Column(name="descripcion")
@@ -30,18 +29,19 @@ public class Producto implements Serializable{
     public Producto() {
     }
 
-    public Producto(String nombre, String descripcion, double precio) {
+    public Producto(Long id,String nombre, String descripcion, double precio) {
+        this.id=id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
     }
 
     public Long getIdentificador() {
-        return identificador;
+        return id;
     }
 
     public void setIdentificador(Long identificador) {
-        this.identificador = identificador;
+        this.id = identificador;
     }
 
     public String getDescripcion() {
@@ -70,13 +70,13 @@ public class Producto implements Serializable{
 
     @Override
     public String toString() {
-        return "Producto{" + "identificador=" + identificador + ", descripcion=" + descripcion + ", precio=" + precio + '}';
+        return "Producto{" + "identificador=" + id + ", descripcion=" + descripcion + ", precio=" + precio + '}';
     }
 
     @Override
     public boolean equals(Object obj) {
         //Dos productos son iguales si tienen la misma id.
-        return ((Producto) obj).identificador == this.identificador; //To change body of generated methods, choose Tools | Templates.
+        return ((Producto) obj).id == this.id; //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
@@ -57,24 +58,24 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     Producto productoAux;
     Empleado empleadoAux;
     provincias prov ;
+    Repositorio rep;
     public VentanaPrincipal() {
         //Obtener provincias del json
-        
+        System.out.println("aqui");
         //Crear tablas
-        Repositorio rep = Repositorio.getInstance();
+        rep = Repositorio.getInstance();
         //Comprobar si existe el archivo de datos, si no es así, se crean las tablas, y se añaden las provincias)
-        File datos = new File("datosTienda.db");
-        if (!datos.exists()) {//Si no existe el fichero....
-            rep.createTables();//Creamos las tablas (llevan clausula if not exist, solo se crean si las tablas no existen ya).
-            prov = getProvincias();//Leemos las provincias del JSON
-            rep.guardarProvincias(prov);//Guardamos las provincias
-        }else{
-            prov=rep.getProvinciasOBJ();
-        }
+        System.out.println("Alla");
+        prov=rep.getProvinciasOBJ();//Recuperar el Objeto de clase Provincias (contiene una lista de Provincias)
+        Collections.sort(prov.provincias);//Ordenamos las provincias.
+        
+        
         initComponents();
         addProvinciasToComboBox(prov);// Añadir las provincias al combobox de provincias.
         //Captar datos de las tablas sqlite.
         tiendas = rep.getAllTiendas();
+//        System.out.println(tiendas.size());
+//        System.out.println(tiendas.get(0).getCiudad());
         productos = rep.getAllProductos();
         empleados = rep.getAllEmpleados();
         clientes = rep.getAllClientes();
@@ -271,7 +272,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addGap(117, 117, 117)
                         .addComponent(jLabel6))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(13, 13, 13)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,7 +398,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(115, 115, 115)
                         .addComponent(jLabel4)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -502,7 +503,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel15)
                         .addGap(87, 87, 87)))
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(buttonDeleteEmpleado)
@@ -757,7 +758,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 315, Short.MAX_VALUE))
                 .addContainerGap(82, Short.MAX_VALUE))
         );
 
@@ -770,7 +771,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -868,7 +869,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addComponent(textEmailCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
                         .addComponent(buttonAddCliente)))
-                .addContainerGap(326, Short.MAX_VALUE))
+                .addContainerGap(342, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(buttonRemoveCliente)
@@ -935,7 +936,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 1263, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -953,7 +954,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabTiendas)
+            .addComponent(tabTiendas, javax.swing.GroupLayout.DEFAULT_SIZE, 1454, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -972,12 +973,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             String ciudadTenda = TextCiudad.getText();
             String provTenda = ComboProvincia.getSelectedItem().toString();
             //Crear un objeto Tienda
-            Tienda t = new Tienda(0L, nomeTenda, ciudadTenda, provTenda);// Le ponemos un id cualquiera, solo a efectos de ajustarnos al constructor.
-            //Proceder al guardado de datos. Ejecutar el metodo insertTienda en una instancia del repositorio.
-            Repositorio rep = Repositorio.getInstance();
-            rep.insertTienda(t, tiendas);//Pasamos el objeto y el listado de tiendas.
-            this.TableTiendas.revalidate();
-            vaciarCamposTienda();
+            Tienda t = new Tienda(nomeTenda, ciudadTenda, provTenda);// Le ponemos un id cualquiera, solo a efectos de ajustarnos al constructor.
+            rep.insertTienda(t, tiendas);
+//            //Proceder al guardado de datos. Ejecutar el metodo insertTienda en una instancia del repositorio.
+//            Repositorio rep = Repositorio.getInstance();
+//            rep.insertTienda(t, tiendas);//Pasamos el objeto y el listado de tiendas.
+//            this.TableTiendas.revalidate();
+//            vaciarCamposTienda();
         } else {
             this.mensajeError("El nombre de la tienda y la ciudad no pueden ser nulos");
         }
@@ -1025,7 +1027,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void ButtonAddProductoCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddProductoCatalogoActionPerformed
         // TODO add your handling code here:
         if (!this.textProdNombre.getText().isEmpty() && !this.textProdPrezo.getText().isEmpty() && !TextAreaProdDescrip.getText().isEmpty()) {
-            int id = Integer.parseInt(this.textIdProducto.getText());
+            Long id = Long.parseLong(this.textIdProducto.getText());
             String nombre = this.textProdNombre.getText();
             String descripcion = this.TextAreaProdDescrip.getText();
             Double precio = Double.parseDouble(this.textProdPrezo.getText());
@@ -1044,7 +1046,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         if (!textNombreEmpleado.getText().isEmpty() && !textApellidosEmpleado.getText().isEmpty()) {
             String nombre = this.textNombreEmpleado.getText();
             String apellidos = this.textApellidosEmpleado.getText();
-            Empleado emp = new Empleado(0, nombre, apellidos);//Crear un empleado.
+            Empleado emp = new Empleado(nombre, apellidos);//Crear un empleado.
             Repositorio rep = Repositorio.getInstance();
             rep.insertEmpleado(emp, this.empleados);//el metodo añade el empleado si no hay en el listado otro que se llame igual.  
             textNombreEmpleado.setText("");
@@ -1373,6 +1375,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     private void addProvinciasToComboBox(provincias prov) {
+        System.out.println(prov);
+        
         for (Provincia p : prov.provincias) {
             try {
                 this.ComboProvincia.addItem(p.getNome());

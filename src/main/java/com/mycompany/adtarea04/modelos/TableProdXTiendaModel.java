@@ -104,7 +104,7 @@ public class TableProdXTiendaModel implements TableModel {
         Producto p = this.prodTienda.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                p.setIdentificador((Integer) aValue);
+                p.setIdentificador((Long) aValue);
                 break;
             case 1:
                 p.setDescripcion((String) aValue);

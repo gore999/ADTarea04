@@ -24,8 +24,8 @@ public class Empleado implements Serializable {
     private String nombre;
     @Column(name="apellidos")
     private String apellidos;
-    @OneToMany(mappedBy="empleado")
-    private Set<TiendaEmpleado> tiendasDelEmpleado=new HashSet();
+//    @OneToMany(mappedBy="empleado")
+//    private Set<TiendaEmpleado> tiendasDelEmpleado=new HashSet();
 
     //Constructor vacio para hibernate
     public Empleado() {

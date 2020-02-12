@@ -18,6 +18,7 @@ import javax.persistence.*;
  * @author Carlos
  */
 @Entity
+@Table(name="tienda")
 public class Tienda implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -29,27 +30,32 @@ public class Tienda implements Serializable {
     private String ciudad;
     @Column(name="provincia")
     private String provincia;
-    
-    @OneToMany(mappedBy="tienda")
-    private Set<TiendaEmpleado> empleadosXTienda=new HashSet();
+    //Empleados relacionados con la tienda
+//    @OneToMany(mappedBy="tienda")
+//    private Set<TiendaEmpleado> empleadosXTienda=new HashSet();
+//    //Productos relacionados con la tienda
+//    @OneToMany(mappedBy="tienda")
+//    private Set<TiendaProducto> productosXTienda=new HashSet();
     
 //Creamos 2 Maps
     //Productos: Relacion id del producto con su cantidad. 
     
-    private Map<Integer,Integer> productos;
-    //Empleados: Relacion id del empleado con las horas que hace en la tienda.
-    private Map <Integer,Double> empleados;
-    //Constructor vacio para hibernate
+   
     public Tienda() {
     }
     
-    public Tienda(Long id, String nombre, String ciudad, String provincia) {
-        this.id=id;
+    public Tienda(String nombre, String ciudad, String provincia) {
         this.nombre = nombre;
         this.ciudad = ciudad;
         this.provincia=provincia;
-        empleados=new HashMap();
-        productos=new HashMap();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -68,7 +74,6 @@ public class Tienda implements Serializable {
         this.ciudad = ciudad;
     }
 
-
     public String getProvincia() {
         return provincia;
     }
@@ -76,27 +81,29 @@ public class Tienda implements Serializable {
     public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
+//
+//    public Set<TiendaEmpleado> getEmpleadosXTienda() {
+//        return empleadosXTienda;
+//    }
+//
+//    public void setEmpleadosXTienda(Set<TiendaEmpleado> empleadosXTienda) {
+//        this.empleadosXTienda = empleadosXTienda;
+//    }
+//
+//    public Set<TiendaProducto> getProductosXTienda() {
+//        return productosXTienda;
+//    }
+//
+//    public void setProductosXTienda(Set<TiendaProducto> productosXTienda) {
+//        this.productosXTienda = productosXTienda;
+//    }
+
     
-
-    public void insertProducto(Producto p){
-        
-    }
-    public void deleteProducto(Producto p){
-        this.productos.remove(p);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
 
     @Override
     public String toString() {
-        return "Tienda{" + "id=" + id + ", nombre=" + nombre + ", ciudad=" + ciudad + ", provincia=" + provincia + ", productos=" + productos + ", empleados=" + empleados + '}';
+        return "Tienda{" + "id=" + id + ", nombre=" + nombre + ", ciudad=" + ciudad + ", provincia=" + provincia + '}';
     }
 
     

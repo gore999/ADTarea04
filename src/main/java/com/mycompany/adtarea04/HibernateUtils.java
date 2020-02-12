@@ -42,9 +42,12 @@ public class HibernateUtils {
             
             conf.addAnnotatedClass(Provincia.class);
             conf.addAnnotatedClass(Tienda.class);
-            conf.addAnnotatedClass(Producto.class);
             conf.addAnnotatedClass(Empleado.class);
+            conf.addAnnotatedClass(Producto.class);
+//            conf.addAnnotatedClass(TiendaEmpleado.class);
+//            conf.addAnnotatedClass(TiendaProducto.class);
             conf.addAnnotatedClass(Cliente.class);
+            
             //Obtener los servicios base. 
             ServiceRegistry serviceRegistry;
             // Se crea un nuevo constructor, al que le tenemos que pasar un objeto Map de las propiedades. Este se obtiene de conf.getProperties. Luego, consrtruimos el serviceRegistry

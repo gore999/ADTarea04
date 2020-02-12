@@ -4,8 +4,7 @@
  * and open the template in the editor.
  */
 package com.mycompany.adtarea04;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,5 +12,5 @@ import java.util.ArrayList;
  */
 public class provincias {
     //Creo esta clase porque es la forma, al menos la que he encotrado, para recuperar los datos desde el JSON. 
-    ArrayList<Provincia> provincias=new ArrayList();
+    List<Provincia> provincias;
 }

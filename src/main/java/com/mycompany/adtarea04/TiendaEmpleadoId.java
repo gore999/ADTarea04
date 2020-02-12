@@ -14,10 +14,9 @@ import javax.persistence.*;
  */
 @Embeddable
 class TiendaEmpleadoId implements Serializable {
-
     @Column(name = "tiendaId")
     protected Long tiendaId;
-    @Column(name = "EmpleadoId")
+    @Column(name = "empleadoId")
     protected Long empleadoId;
 
     public TiendaEmpleadoId() {

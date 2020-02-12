@@ -6,13 +6,18 @@
 package com.mycompany.adtarea04;
 
 import java.io.Serializable;
+import javax.persistence.*;
 
 /**
  *
  * @author Carlos
  */
-public class Provincia implements Serializable{
+@Entity
+@Table(name="provincias")
+public class Provincia implements Serializable,Comparable<Provincia>{
+    @Id
     int id;
+    @Column(name="nombre")
     String nome;
     
     //Constructor vacio para hibernate
@@ -44,5 +49,14 @@ public class Provincia implements Serializable{
     public String toString() {
         return "Provincia{" + "id=" + id + ", nome=" + nome + '}';
     }
-     
+
+    @Override
+    public int compareTo(Provincia otraProvincia) {
+        return this.nome.compareTo(otraProvincia.nome);
+       
+    }
+
+    
+    
+
 }
