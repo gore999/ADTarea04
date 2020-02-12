@@ -18,7 +18,6 @@ import javax.persistence.*;
  * @author Carlos
  */
 @Entity
-@Table(name="tienda")
 public class Tienda implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -31,11 +30,11 @@ public class Tienda implements Serializable {
     @Column(name="provincia")
     private String provincia;
     //Empleados relacionados con la tienda
-//    @OneToMany(mappedBy="tienda")
-//    private Set<TiendaEmpleado> empleadosXTienda=new HashSet();
-//    //Productos relacionados con la tienda
-//    @OneToMany(mappedBy="tienda")
-//    private Set<TiendaProducto> productosXTienda=new HashSet();
+    @OneToMany(mappedBy="tienda")
+    private Set<TiendaEmpleado> empleadosXTienda=new HashSet();
+    //Productos relacionados con la tienda
+    @OneToMany(mappedBy="tienda")
+    private Set<TiendaProducto> productosXTienda=new HashSet();
     
 //Creamos 2 Maps
     //Productos: Relacion id del producto con su cantidad. 

@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Entity
 public class TiendaProducto implements Serializable{
     @EmbeddedId
-    TiendaProducto tiendaProducto=new TiendaProducto();
+    TiendaProductoId tiendaProducto=new TiendaProductoId();
     @ManyToOne
     @MapsId("tiendaId")
     private Tienda tienda;
@@ -32,14 +32,6 @@ public class TiendaProducto implements Serializable{
         this.tienda = tienda;
         this.producto = producto;
         this.cantidad = cantidad;
-    }
-
-    public TiendaProducto getTiendaProducto() {
-        return tiendaProducto;
-    }
-
-    public void setTiendaProducto(TiendaProducto tiendaProducto) {
-        this.tiendaProducto = tiendaProducto;
     }
 
     public Tienda getTienda() {

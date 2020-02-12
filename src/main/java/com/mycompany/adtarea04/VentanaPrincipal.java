@@ -978,8 +978,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 //            //Proceder al guardado de datos. Ejecutar el metodo insertTienda en una instancia del repositorio.
 //            Repositorio rep = Repositorio.getInstance();
 //            rep.insertTienda(t, tiendas);//Pasamos el objeto y el listado de tiendas.
-//            this.TableTiendas.revalidate();
-//            vaciarCamposTienda();
+            this.TableTiendas.revalidate();
+            vaciarCamposTienda();
         } else {
             this.mensajeError("El nombre de la tienda y la ciudad no pueden ser nulos");
         }

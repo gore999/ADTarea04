@@ -6,6 +6,8 @@
 package com.mycompany.adtarea04;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -25,6 +27,8 @@ public class Producto implements Serializable{
     @Column(name="precio")
     private double precio;
     //Constructor vacio para hibernate
+    @OneToMany(mappedBy="producto")
+    private Set<TiendaProducto> tiendasQueTienenElProducto=new HashSet();
 
     public Producto() {
     }

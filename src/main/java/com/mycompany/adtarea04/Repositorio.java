@@ -155,26 +155,13 @@ public class Repositorio {//Clase singleton para operar con datos.
 
     /*ELIMINAR UNA TIENDA*/
     void deleteTienda(Tienda tienda, ArrayList<Tienda> tiendas) {
-//        String sql = "DELETE FROM tendas WHERE id=?";
-//        String sqldelRelacionesProd = "DELETE FROM produtos_tendas WHERE idTenda=?";
-//        String sqldelRelacionesEmp = "DELETE FROM empleados_tendas WHERE idTenda=?";
-//        try {//Borrar de base de datos.
-//            PreparedStatement pstmt = con.prepareStatement(sql);
-//            pstmt.setLong(1, tienda.id);
-//            pstmt.execute();
-//            //Borrar relaciones con productos
-//            pstmt = con.prepareStatement(sqldelRelacionesProd);
-//            pstmt.setLong(1, tienda.id);
-//            pstmt.execute();
-//            //Borrar relaciones con productos
-//            pstmt = con.prepareStatement(sqldelRelacionesProd);
-//            pstmt.setLong(1, tienda.id);
-//            pstmt.execute();
-//            //Borrar del ArrayList
-//            tiendas.remove(tienda);//Añadir la tienda al arraylist.
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Repositorio.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        Long id=tienda.getId();
+        trans=session.beginTransaction();
+        Query q=session.createQuery("DELETE FROM Tienda WHERE id= :id");
+        q.setLong("id", id);
+        q.executeUpdate();
+        trans.commit();
+        tiendas.remove(tienda);
     }
 
     void insertProducto(Producto producto, ArrayList<Producto> productos) {
@@ -195,22 +182,13 @@ public class Repositorio {//Clase singleton para operar con datos.
     }
 
     void deleteProducto(Producto p, ArrayList<Producto> productos) {
-//        String sql = "DELETE FROM produtos WHERE id=?";//Borrar el producto del listado general de productos. 
-//        String sql2 = "DELETE FROM produtos_tendas WHERE idproduto=?";//Borrar todas las relaciones de tiendas con el producto.
-//        try {//Borrar de base de datos.
-//            //Borrado del producto del listado
-//            PreparedStatement pstmt = con.prepareStatement(sql);
-//            pstmt.setInt(1, p.getIdentificador());
-//            pstmt.execute();
-//            //Borrado de relaciones`producto-tienda
-//            pstmt = con.prepareStatement(sql2);
-//            pstmt.setInt(1, p.getIdentificador());
-//            pstmt.execute();
-//            //Borrar del ArrayList
-//            productos.remove(p);//Añadir la tienda al arraylist.
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Repositorio.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        Long id = p.getIdentificador();
+        trans = session.beginTransaction();
+        Query q = session.createQuery("DELETE FROM Producto WHERE id= :id");
+        q.setLong("id", id);
+        q.executeUpdate();
+        trans.commit();
+        productos.remove(p);
     }
 
     void insertEmpleado(Empleado emp, ArrayList<Empleado> empleados) {
@@ -231,20 +209,12 @@ public class Repositorio {//Clase singleton para operar con datos.
     }
 
     void deleteEmpleado(Empleado emp, ArrayList<Empleado> empleados) {
-//        String sql = "DELETE FROM empregados WHERE id=?";
-//        String sql2 = "DELETE FROM empleados_tendas WHERE idEmpregado=?";//Borrado de relaciones 
-//        try {//Borrar de base de datos.
-//            PreparedStatement pstmt = con.prepareStatement(sql);
-//            pstmt.setInt(1, emp.getId());
-//            pstmt.execute();
-//            pstmt = con.prepareStatement(sql2);
-//            pstmt.setInt(1, emp.getId());
-//            pstmt.execute();
-//            //Borrar del ArrayList
-//            empleados.remove(emp);//Eliminar el empleado de lista general
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Repositorio.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        trans=session.beginTransaction();
+        Query q=session.createQuery("DELETE FROM Empleado where id= :id");
+        q.setLong("id", emp.getId());
+        q.executeUpdate();
+        trans.commit();
+        empleados.remove(emp);
     }
 // Actuar sobre tiendas concretas
 
@@ -321,7 +291,7 @@ public class Repositorio {//Clase singleton para operar con datos.
 //            Logger.getLogger(Repositorio.class.getName()).log(Level.SEVERE, null, ex);
 //        }
     }
-
+/// OPERACIONES SOBRE CLIENTES
     void addCliente(Cliente c, ArrayList<Cliente> clientes) {
         boolean existeYa = false;
         for (Cliente ca : clientes) {
@@ -340,17 +310,12 @@ public class Repositorio {//Clase singleton para operar con datos.
     }
 
     void deleteCliente(Cliente c, ArrayList<Cliente> clientes) {
-        String sql = "DELETE FROM clientes WHERE nome=? AND apelidos=? AND email=?";
-//        try {//Borrar de base de datos.
-//            PreparedStatement pstmt = con.prepareStatement(sql);
-//            pstmt.setString(1, c.getNombre());
-//            pstmt.setString(2, c.getApellidos());
-//            pstmt.setString(3, c.getEmail());
-//            pstmt.execute();
-//            clientes.remove(c);//Quitar el cliente del arraylist.
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Repositorio.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        trans=session.beginTransaction();
+        Query q=session.createQuery("DELETE FROM Cliente WHERE id= :id");
+        q.setLong("id", c.getId());
+        q.executeUpdate();
+        trans.commit();
+        clientes.remove(c);
     }
 
     void guardarProvincias(provincias prov) {

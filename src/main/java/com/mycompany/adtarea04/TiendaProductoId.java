@@ -5,6 +5,7 @@
  */
 package com.mycompany.adtarea04;
 
+import java.io.Serializable;
 import javax.persistence.*;
 
 /**
@@ -12,7 +13,7 @@ import javax.persistence.*;
  * @author Carlos
  */
 @Embeddable
-public class TiendaProductoId {
+public class TiendaProductoId implements Serializable {
     @Column(name="tiendaId")
     protected Long tiendaId;
     @Column(name="productoId")
