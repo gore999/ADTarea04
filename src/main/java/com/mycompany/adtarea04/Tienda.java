@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.persistence.*;
@@ -31,10 +32,10 @@ public class Tienda implements Serializable {
     private String provincia;
     //Empleados relacionados con la tienda
     @OneToMany(mappedBy="tienda")
-    private Set<TiendaEmpleado> empleadosXTienda=new HashSet();
+    private List <TiendaEmpleado> empleadosXTienda=new ArrayList();
     //Productos relacionados con la tienda
     @OneToMany(mappedBy="tienda")
-    private Set<TiendaProducto> productosXTienda=new HashSet();
+    private List<TiendaProducto> productosXTienda=new ArrayList();
     
 //Creamos 2 Maps
     //Productos: Relacion id del producto con su cantidad. 
@@ -80,22 +81,22 @@ public class Tienda implements Serializable {
     public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
-//
-//    public Set<TiendaEmpleado> getEmpleadosXTienda() {
-//        return empleadosXTienda;
-//    }
-//
-//    public void setEmpleadosXTienda(Set<TiendaEmpleado> empleadosXTienda) {
-//        this.empleadosXTienda = empleadosXTienda;
-//    }
-//
-//    public Set<TiendaProducto> getProductosXTienda() {
-//        return productosXTienda;
-//    }
-//
-//    public void setProductosXTienda(Set<TiendaProducto> productosXTienda) {
-//        this.productosXTienda = productosXTienda;
-//    }
+
+    public List<TiendaEmpleado> getEmpleadosXTienda() {
+        return empleadosXTienda;
+    }
+
+    public void setEmpleadosXTienda(List<TiendaEmpleado> empleadosXTienda) {
+        this.empleadosXTienda = empleadosXTienda;
+    }
+
+    public List<TiendaProducto> getProductosXTienda() {
+        return productosXTienda;
+    }
+
+    public void setProductosXTienda(List <TiendaProducto> productosXTienda) {
+        this.productosXTienda = productosXTienda;
+    }
 
     
 

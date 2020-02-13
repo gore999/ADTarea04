@@ -6,7 +6,9 @@
 package com.mycompany.adtarea04;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 
@@ -28,7 +30,7 @@ public class Producto implements Serializable{
     private double precio;
     //Constructor vacio para hibernate
     @OneToMany(mappedBy="producto")
-    private Set<TiendaProducto> tiendasQueTienenElProducto=new HashSet();
+    private List<TiendaProducto> tiendasQueTienenElProducto=new ArrayList();
 
     public Producto() {
     }
@@ -70,6 +72,22 @@ public class Producto implements Serializable{
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<TiendaProducto> getTiendasQueTienenElProducto() {
+        return tiendasQueTienenElProducto;
+    }
+
+    public void setTiendasQueTienenElProducto(List<TiendaProducto> tiendasQueTienenElProducto) {
+        this.tiendasQueTienenElProducto = tiendasQueTienenElProducto;
     }
 
     @Override

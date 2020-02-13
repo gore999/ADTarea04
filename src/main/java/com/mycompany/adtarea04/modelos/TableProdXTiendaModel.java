@@ -6,7 +6,12 @@
 package com.mycompany.adtarea04.modelos;
 
 import com.mycompany.adtarea04.Producto;
+import com.mycompany.adtarea04.Tienda;
+import com.mycompany.adtarea04.TiendaProducto;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
@@ -16,17 +21,21 @@ import javax.swing.table.TableModel;
  */
 public class TableProdXTiendaModel implements TableModel {
 
-    ArrayList<Producto> prodTienda;
-    ArrayList<Integer> cantidades;
-    public TableProdXTiendaModel(ArrayList<Producto> prodTienda,ArrayList<Integer>cantidades) {
-        this.prodTienda = prodTienda;
-        this.cantidades=cantidades;
+    Tienda tiendaAnalizada;
+    List<TiendaProducto> tp;
+    
+    public TableProdXTiendaModel(Tienda t) {
+        if (t != null) {
+            this.tiendaAnalizada = t;
+            tp = t.getProductosXTienda();
+        }
+        else t=new Tienda();
     }
-
+    
     @Override
     public int getRowCount() {
-        if (prodTienda != null) {
-            return prodTienda.size();
+        if (tp != null) {
+            return tp.size();
         }
         return 0;
     }
@@ -35,7 +44,7 @@ public class TableProdXTiendaModel implements TableModel {
     public int getColumnCount() {
         return 5;
     }
-
+//Nombres de las columnas
     @Override
     public String getColumnName(int columnIndex) {
         String salida = null;
@@ -53,12 +62,12 @@ public class TableProdXTiendaModel implements TableModel {
                 salida = "Prezo";
                 break;
             case 4:
-                salida="Cantidade";
+                salida = "Cantidade";
                 break;
         }
         return salida;
     }
-
+//clase de las columnas
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
@@ -83,7 +92,7 @@ public class TableProdXTiendaModel implements TableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Producto p = this.prodTienda.get(rowIndex);
+        Producto p = tp.get(rowIndex).getProducto();
         switch (columnIndex) {
             case 0:
                 return p.getIdentificador();
@@ -94,14 +103,14 @@ public class TableProdXTiendaModel implements TableModel {
             case 3:
                 return p.getPrecio();
             case 4:
-                return cantidades.get(rowIndex);
+                return tp.get(rowIndex).getCantidad();
         }
         return null;
     }
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Producto p = this.prodTienda.get(rowIndex);
+        Producto p = this.tp.get(rowIndex).getProducto();
         switch (columnIndex) {
             case 0:
                 p.setIdentificador((Long) aValue);
@@ -116,7 +125,7 @@ public class TableProdXTiendaModel implements TableModel {
                 p.setPrecio((Float) aValue);
                 break;
             case 4:
-                cantidades.set(rowIndex, (Integer)aValue);
+                tp.get(rowIndex).setCantidad((Integer)aValue);
                 break;
         }
     }
@@ -127,6 +136,28 @@ public class TableProdXTiendaModel implements TableModel {
 
     @Override
     public void removeTableModelListener(TableModelListener l) {
+    }
+    public void cambiarTienda(Tienda t){
+        this.tiendaAnalizada=t;
+        this.tp=this.tiendaAnalizada.getProductosXTienda();
+    }
+    
+    
+    public Tienda getTiendaAnalizada() {
+        return tiendaAnalizada;
+    }
+
+    public void setTiendaAnalizada(Tienda tiendaAnalizada) {
+        this.tiendaAnalizada = tiendaAnalizada;
+        setTp(tiendaAnalizada.getProductosXTienda());
+    }
+
+    public List<TiendaProducto> getTp() {
+        return tp;
+    }
+
+    public void setTp(List<TiendaProducto> tp) {
+        this.tp = tp;
     }
 
 }

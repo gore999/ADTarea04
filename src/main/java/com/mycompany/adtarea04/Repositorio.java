@@ -58,34 +58,34 @@ public class Repositorio {//Clase singleton para operar con datos.
     public ArrayList<Tienda> getAllTiendas() {
         ArrayList<Tienda> tiendas = new ArrayList();
         Query q = session.createQuery("SELECT tienda FROM Tienda tienda");
-        tiendas = (ArrayList<Tienda>)q.list();//Recuperamos las provincias de la base de datos (si está llena).
-        for(Tienda t:tiendas){
-            System.out.println("Lista de tiendas:"+t.toString());
+        tiendas = (ArrayList<Tienda>) q.list();//Recuperamos las provincias de la base de datos (si está llena).
+        for (Tienda t : tiendas) {
+            System.out.println("Lista de tiendas:" + t.toString());
         }
         return tiendas;
     }
 
     public ArrayList<Producto> getAllProductos() {
         ArrayList<Producto> productos = new ArrayList();
-        Query q=session.createQuery("SELECT p FROM Producto p");
-        productos=(ArrayList<Producto>)q.list();
+        Query q = session.createQuery("SELECT p FROM Producto p");
+        productos = (ArrayList<Producto>) q.list();
         return productos;
     }
 
     public ArrayList<Empleado> getAllEmpleados() {
         ArrayList<Empleado> empleados = new ArrayList();
         Query q = session.createQuery("SELECT empleado FROM Empleado empleado");
-        empleados = (ArrayList<Empleado>)q.list();//Recuperamos los empleados.
-        for(Empleado e:empleados){
-            System.out.println("Lista de empleados:"+e.toString());
+        empleados = (ArrayList<Empleado>) q.list();//Recuperamos los empleados.
+        for (Empleado e : empleados) {
+            System.out.println("Lista de empleados:" + e.toString());
         }
         return empleados;
     }
 
     public ArrayList<Cliente> getAllClientes() {
         ArrayList<Cliente> clientes = new ArrayList();
-        Query q=session.createQuery("SELECT cliente FROM Cliente cliente");
-        clientes=(ArrayList<Cliente> )q.list();
+        Query q = session.createQuery("SELECT cliente FROM Cliente cliente");
+        clientes = (ArrayList<Cliente>) q.list();
         return clientes;
     }
 
@@ -147,17 +147,17 @@ public class Repositorio {//Clase singleton para operar con datos.
 
     /*CREAR UNA TIENDA*/
     public void insertTienda(Tienda tienda, ArrayList<Tienda> tiendas) {
-       trans=session.beginTransaction();
-       session.save(tienda);
-       trans.commit();
-       tiendas.add(tienda);
+        trans = session.beginTransaction();
+        session.save(tienda);
+        trans.commit();
+        tiendas.add(tienda);
     }
 
     /*ELIMINAR UNA TIENDA*/
     void deleteTienda(Tienda tienda, ArrayList<Tienda> tiendas) {
-        Long id=tienda.getId();
-        trans=session.beginTransaction();
-        Query q=session.createQuery("DELETE FROM Tienda WHERE id= :id");
+        Long id = tienda.getId();
+        trans = session.beginTransaction();
+        Query q = session.createQuery("DELETE FROM Tienda WHERE id= :id");
         q.setLong("id", id);
         q.executeUpdate();
         trans.commit();
@@ -199,7 +199,7 @@ public class Repositorio {//Clase singleton para operar con datos.
             }
         }
         if (!existeYa) {//Si no existe, lo insertamos.
-            trans=session.beginTransaction();
+            trans = session.beginTransaction();
             session.save(emp);
             trans.commit();
             empleados.add(emp);
@@ -209,8 +209,8 @@ public class Repositorio {//Clase singleton para operar con datos.
     }
 
     void deleteEmpleado(Empleado emp, ArrayList<Empleado> empleados) {
-        trans=session.beginTransaction();
-        Query q=session.createQuery("DELETE FROM Empleado where id= :id");
+        trans = session.beginTransaction();
+        Query q = session.createQuery("DELETE FROM Empleado where id= :id");
         q.setLong("id", emp.getId());
         q.executeUpdate();
         trans.commit();
@@ -218,7 +218,15 @@ public class Repositorio {//Clase singleton para operar con datos.
     }
 // Actuar sobre tiendas concretas
 
-    void insertProductoEnTienda(Tienda tiendaAux, Producto productoAux, int cantidad, ArrayList<Producto> productosTienda, ArrayList<Integer> cantProdTienda) {
+    void insertProductoEnTienda(Tienda tiendaAux, Producto productoAux, int cantidad) {
+        TiendaProducto tp = new TiendaProducto(tiendaAux, productoAux, cantidad);
+        tiendaAux.getProductosXTienda().add(tp);
+        productoAux.getTiendasQueTienenElProducto().add(tp);
+        trans = session.beginTransaction();
+        session.save(tiendaAux);
+        session.save(productoAux);
+        session.save(tp);
+        trans.commit();
 //        int indiceProd = productosTienda.indexOf(productoAux);
 //        if (indiceProd != -1) {//Si el producto existe ya en el listado, cambiamos el valor en el ArrayList de cantidades de 
 //            cantProdTienda.set(indiceProd, cantidad);//usamos el indice del producto, cambiamos el valor a "cantidad".
@@ -255,43 +263,36 @@ public class Repositorio {//Clase singleton para operar con datos.
 //        }
     }
 
-    void insertEmpleadoEnTienda(Tienda tiendaAux, Empleado empleadoAux, int horas, ArrayList<Empleado> empleadosTienda, ArrayList<Integer> horasEmpTienda) {
-//        int indiceEmp = empleadosTienda.indexOf(empleadoAux);//Obtener el indice del empleado en el listado de empleados de la tienda
-//        if (indiceEmp != -1) {//Si el producto existe ya en el listado, cambiamos el valor en el ArrayList de cantidades de 
-//            horasEmpTienda.set(indiceEmp, horas);//usamos el indice del empleado, cambiamos el valor a "horas".
-//        } else {//Si aun no tiene el producto, lo añade al final de ambos arrays.
-//            horasEmpTienda.add(horas);
-//            empleadosTienda.add(empleadoAux);
-//        }
-//        //Actualizamos en base de datos la tabla que recoge relaciones tienda-producto con REPLACE: Si ya existe, reemplaza, si no, inserta.
-//        String sql = "REPLACE INTO empleados_tendas(idTenda,idEmpregado,horas) VALUES(?,?,?)";
-//        try {
-//            PreparedStatement pstmt = con.prepareStatement(sql);//Necesitamos la key de insercion.
-//            pstmt.setLong(1, tiendaAux.id);
-//            pstmt.setInt(2, empleadoAux.getId());
-//            pstmt.setInt(3, horas);
-//            pstmt.execute();
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Repositorio.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        this.getTiendaEmpleadoData(tiendaAux, empleadosTienda, horasEmpTienda);
+    void insertEmpleadoEnTienda(Tienda tiendaAux, Empleado empleadoAux, int horas) {
+        //Crear Objeto TiendaEmpleado que guarda la relacion.
+        TiendaEmpleado te = new TiendaEmpleado(tiendaAux, empleadoAux, horas);
+        //Añadir el objeto a la tienda y al empleado
+        tiendaAux.getEmpleadosXTienda().add(te);
+        empleadoAux.getTiendasDelEmpleado().add(te);
+        trans = session.beginTransaction();
+        session.save(tiendaAux);
+        session.save(empleadoAux);
+        session.save(te);
+        trans.commit();
+//      
     }
 
-    void removeEmpFromTienda(Empleado emp, ArrayList<Empleado> empleadosTienda, Tienda tienda) {
-//        String sql2 = "DELETE FROM empleados_tendas WHERE idEmpregado=? and idTenda=?";//Borrar todas las relaciones de tiendas con el producto.
-//        try {//Borrar de base de datos.
-//            PreparedStatement pstmt = con.prepareStatement(sql2);
-//            pstmt.setInt(1, emp.getId());
-//            pstmt.setLong(2, tienda.getId());
-//            pstmt.execute();
-//            //Borrar del ArrayList
-//            empleadosTienda.remove(emp);//Eliminar empleado del arraylist.
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Repositorio.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+    void removeEmpFromTienda(TiendaEmpleado tiendaEmp) {
+//        //Recibimos la tienda y el empleado, hay que borrar el empleado de la tienda, la tienda del empleado y eliminar el objeto que los vincula
+        Tienda t=tiendaEmp.getTienda();
+        Empleado e=tiendaEmp.getEmpleado();
+        e.getTiendasDelEmpleado().remove(tiendaEmp);
+        t.getEmpleadosXTienda().remove(tiendaEmp);
+        trans = session.beginTransaction();
+        session.save(e);
+        session.save(t);
+        session.delete(tiendaEmp);
+        trans.commit();
+        
+
     }
 /// OPERACIONES SOBRE CLIENTES
+
     void addCliente(Cliente c, ArrayList<Cliente> clientes) {
         boolean existeYa = false;
         for (Cliente ca : clientes) {
@@ -300,7 +301,7 @@ public class Repositorio {//Clase singleton para operar con datos.
             }
         }
         if (!existeYa) {
-            trans=session.beginTransaction();
+            trans = session.beginTransaction();
             session.save(c);
             trans.commit();
             clientes.add(c);
@@ -310,27 +311,12 @@ public class Repositorio {//Clase singleton para operar con datos.
     }
 
     void deleteCliente(Cliente c, ArrayList<Cliente> clientes) {
-        trans=session.beginTransaction();
-        Query q=session.createQuery("DELETE FROM Cliente WHERE id= :id");
+        trans = session.beginTransaction();
+        Query q = session.createQuery("DELETE FROM Cliente WHERE id= :id");
         q.setLong("id", c.getId());
         q.executeUpdate();
         trans.commit();
         clientes.remove(c);
-    }
-
-    void guardarProvincias(provincias prov) {
-        String sql = "REPLACE INTO provincias (id, nombre) VALUES (?,?)";
-//        try {
-//            PreparedStatement pstmt = con.prepareStatement(sql);
-//            for (Provincia p : prov.provincias) {//Para cada provincia, guardamos su valor con Replace en la tabla.
-//                pstmt.setInt(1, p.getId());
-//                pstmt.setString(2, p.getNome());
-//                pstmt.execute();
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Repositorio.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
     }
 
     provincias getProvinciasOBJ() {
@@ -338,7 +324,7 @@ public class Repositorio {//Clase singleton para operar con datos.
         //Recuperar las provincias desde base de datos.
         Query q = session.createQuery("SELECT prov FROM Provincia prov");
         provsOBJ.provincias = q.list();//Recuperamos las provincias de la base de datos (si está llena).
-        if (provsOBJ.provincias.size()==0) {//Si no hay datos en BD, los tomamos del JSON
+        if (provsOBJ.provincias.size() == 0) {//Si no hay datos en BD, los tomamos del JSON
             Gson gson = new Gson();
             try {
                 BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("provincias.json"), "UTF-8"));//Leer el archivo en utf

@@ -6,7 +6,9 @@
 package com.mycompany.adtarea04;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 
@@ -24,10 +26,10 @@ public class Empleado implements Serializable {
     private String nombre;
     @Column(name="apellidos")
     private String apellidos;
-//    @OneToMany(mappedBy="empleado")
-//    private Set<TiendaEmpleado> tiendasDelEmpleado=new HashSet();
+    @OneToMany(mappedBy="empleado")
+    private List<TiendaEmpleado> tiendasDelEmpleado=new ArrayList();
 
-    //Constructor vacio para hibernate
+//    Constructor vacio para hibernate
     public Empleado() {
     }
 
@@ -63,6 +65,14 @@ public class Empleado implements Serializable {
     @Override
     public String toString() {
         return "Empleado{" + "id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + '}';
+    }
+
+    public List<TiendaEmpleado> getTiendasDelEmpleado() {
+        return tiendasDelEmpleado;
+    }
+
+    public void setTiendasDelEmpleado(List<TiendaEmpleado> tiendasDelEmpleado) {
+        this.tiendasDelEmpleado = tiendasDelEmpleado;
     }
 
     /**/

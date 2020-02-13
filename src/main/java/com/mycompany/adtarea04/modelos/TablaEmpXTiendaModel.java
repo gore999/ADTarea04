@@ -7,7 +7,9 @@ package com.mycompany.adtarea04.modelos;
 
 import com.mycompany.adtarea04.Empleado;
 import com.mycompany.adtarea04.Tienda;
+import com.mycompany.adtarea04.TiendaEmpleado;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
@@ -17,18 +19,21 @@ import javax.swing.table.TableModel;
  */
 public class TablaEmpXTiendaModel implements TableModel {
 
-    ArrayList<Empleado> empleados;
-    ArrayList<Integer> horas;
+    Tienda tiendaAnalizada;
+    List<TiendaEmpleado> te;
 
-    public TablaEmpXTiendaModel(ArrayList<Empleado> empleados,ArrayList<Integer> horas) {
-        this.empleados = empleados;
-        this.horas=horas;
+    public TablaEmpXTiendaModel(Tienda t) {
+    if (t != null) {
+            this.tiendaAnalizada = t;
+            te = t.getEmpleadosXTienda();
+        }
+        else t=new Tienda();
     }
 
     @Override
     public int getRowCount() {
-        if (empleados != null) {
-            return empleados.size();
+        if (te != null) {
+            return te.size();
         }
         return 0;
     }
@@ -49,7 +54,7 @@ public class TablaEmpXTiendaModel implements TableModel {
                 salida = "Apelidos";
                 break;
             case 2:
-                salida="Horas";
+                salida = "Horas";
                 break;
         }
         return salida;
@@ -57,7 +62,9 @@ public class TablaEmpXTiendaModel implements TableModel {
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        if(columnIndex<2)return String.class; //todos son cadenas.
+        if (columnIndex < 2) {
+            return String.class; //todos son cadenas.
+        }
         return Integer.class;
     }
 
@@ -68,22 +75,22 @@ public class TablaEmpXTiendaModel implements TableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Empleado emp = this.empleados.get(rowIndex);
+        Empleado emp = this.te.get(rowIndex).getEmpleado();
         switch (columnIndex) {
             case 0:
                 return emp.getNombre();
             case 1:
                 return emp.getApellidos();
             case 2:
-                return horas.get(rowIndex);
-            
+                return this.te.get(rowIndex).getHoras();
+
         }
         return null;
     }
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Empleado e = empleados.get(rowIndex);
+        Empleado e = te.get(rowIndex).getEmpleado();
         switch (columnIndex) {
             case 0:
                 e.setNombre((String) aValue);
@@ -91,8 +98,8 @@ public class TablaEmpXTiendaModel implements TableModel {
             case 1:
                 e.setApellidos((String) aValue);
                 break;
-                case 2: 
-                horas.set(rowIndex, (Integer)aValue);
+            case 2:
+                te.get(rowIndex).setHoras((Integer) aValue);
                 break;
         }
     }
@@ -104,5 +111,17 @@ public class TablaEmpXTiendaModel implements TableModel {
     @Override
     public void removeTableModelListener(TableModelListener l) {
     }
+    public void setTiendaAnalizada(Tienda tiendaAnalizada) {
+        this.tiendaAnalizada = tiendaAnalizada;
+        setTe(tiendaAnalizada.getEmpleadosXTienda());
+    }
 
+    public List<TiendaEmpleado> getTe() {
+        return te;
+    }
+
+    public void setTe(List<TiendaEmpleado> te) {
+        this.te = te;
+    }
+ 
 }
