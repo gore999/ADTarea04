@@ -31,10 +31,10 @@ public class Tienda implements Serializable {
     @Column(name="provincia")
     private String provincia;
     //Empleados relacionados con la tienda
-    @OneToMany(mappedBy="tienda")
+    @OneToMany(mappedBy="tienda",orphanRemoval = true)
     private List <TiendaEmpleado> empleadosXTienda=new ArrayList();
     //Productos relacionados con la tienda
-    @OneToMany(mappedBy="tienda")
+    @OneToMany(mappedBy="tienda",cascade=CascadeType.ALL,orphanRemoval = true)
     private List<TiendaProducto> productosXTienda=new ArrayList();
     
 //Creamos 2 Maps

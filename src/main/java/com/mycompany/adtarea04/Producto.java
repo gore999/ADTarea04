@@ -29,7 +29,7 @@ public class Producto implements Serializable{
     @Column(name="precio")
     private double precio;
     //Constructor vacio para hibernate
-    @OneToMany(mappedBy="producto")
+    @OneToMany(mappedBy="producto",orphanRemoval = true)
     private List<TiendaProducto> tiendasQueTienenElProducto=new ArrayList();
 
     public Producto() {

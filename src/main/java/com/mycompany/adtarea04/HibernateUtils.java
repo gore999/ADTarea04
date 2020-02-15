@@ -5,7 +5,16 @@
  */
 package com.mycompany.adtarea04;
 
+import com.google.gson.Gson;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -19,22 +28,40 @@ import org.hibernate.service.ServiceRegistry;
 public class HibernateUtils {
 
     private static SessionFactory sessionFactory;
-
+    
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
+            Gson gson=new Gson();
+            
+            Configuracion jsonConf=null;
+            jsonConf=new Configuracion();
+            System.out.println(gson.toJson(jsonConf));
+            jsonConf=null;
+            BufferedReader br;
+            try {
+                br = new BufferedReader(new InputStreamReader(new FileInputStream("provincias.json"), "UTF-8")); //Leer el archivo en utf
+                jsonConf = gson.fromJson(br, Configuracion.class);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(HibernateUtils.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(HibernateUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+            
             Configuration conf = new Configuration();
             Properties props = new Properties();
             //Propiedades de conexion red
-            props.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-            props.put(Environment.URL, "jdbc:mysql://localhost:3306/TiendasAD04?serverTimezone=UTC&createDatabaseIfNotExist=TRUE");
+            props.put(Environment.DRIVER, jsonConf.hibernate.driver);
+            props.put(Environment.URL, "jdbc:mysql://localhost:3306/"+jsonConf.dbConnection.name+"?serverTimezone=UTC&createDatabaseIfNotExist=TRUE");
             //Conectar a la bd 
-            props.put(Environment.USER, "root");
-            props.put(Environment.PASS, "");
+            props.put(Environment.USER, jsonConf.dbConnection.user);
+            props.put(Environment.PASS, jsonConf.dbConnection.password);
             //Otras caracteristicas:
-            props.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
-            props.put(Environment.HBM2DDL_AUTO, "create-drop");
+            props.put(Environment.DIALECT, jsonConf.hibernate.dialect);
+            props.put(Environment.HBM2DDL_AUTO, jsonConf.hibernate.HBM2DDL_AUTO);
             //Este ya sobra, pero sirve para ver lo que hibernate va haciendo.
-            props.put(Environment.SHOW_SQL, "true");
+            props.put(Environment.SHOW_SQL,jsonConf.hibernate.SHOW_SQL);
             //Añadimos las propiedades al objeto configuracion
             conf.setProperties(props);
             //Que clases vamos a persistir
@@ -58,4 +85,6 @@ public class HibernateUtils {
         }
         return sessionFactory;
     }
+    
+    
 }

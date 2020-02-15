@@ -69,7 +69,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     Empleado empleadoAux;
     provincias prov;
     Repositorio rep;
-    
+
     public VentanaPrincipal() {
         //Obtener provincias del json
         System.out.println("aqui");
@@ -181,6 +181,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jScrollPane10 = new javax.swing.JScrollPane();
         jScrollPane5 = new javax.swing.JScrollPane();
         TablaProductosXTienda = new javax.swing.JTable();
+        ButtonInformeStock = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         textHorasEmpleadoTienda = new javax.swing.JTextField();
@@ -596,6 +597,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jScrollPane10.setViewportView(jScrollPane5);
 
+        ButtonInformeStock.setText("Stock-JSON");
+        ButtonInformeStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonInformeStockActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -618,7 +626,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(textCantidadProdAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(4, 4, 4)
-                                .addComponent(buttonAddProductoATienda))
+                                .addComponent(buttonAddProductoATienda)
+                                .addGap(18, 18, 18)
+                                .addComponent(ButtonInformeStock))
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabel19)
@@ -639,7 +649,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
                     .addComponent(textCantidadProdAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonAddProductoATienda))
+                    .addComponent(buttonAddProductoATienda)
+                    .addComponent(ButtonInformeStock))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
@@ -687,6 +698,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        TablaEmpXTienda.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaEmpXTiendaMouseClicked(evt);
+            }
+        });
         jScrollPane6.setViewportView(TablaEmpXTienda);
 
         jScrollPane11.setViewportView(jScrollPane6);
@@ -749,11 +765,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap(151, Short.MAX_VALUE)
+                .addContainerGap(52, Short.MAX_VALUE)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(83, 83, 83)
+                .addGap(78, 78, 78)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85))
+                .addGap(50, 50, 50))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -799,7 +815,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 30, Short.MAX_VALUE))
+                        .addGap(0, 108, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24)
@@ -808,7 +824,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(442, 442, 442)
+                .addGap(445, 445, 445)
                 .addComponent(LabelTiendaSeleccionada)
                 .addGap(18, 18, 18)
                 .addComponent(labelSeleccionTienda)
@@ -908,7 +924,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addComponent(textEmailCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
                         .addComponent(buttonAddCliente)))
-                .addContainerGap(353, Short.MAX_VALUE))
+                .addContainerGap(292, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(buttonRemoveCliente)
@@ -975,7 +991,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 1263, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -993,7 +1009,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabTiendas)
+            .addComponent(tabTiendas, javax.swing.GroupLayout.DEFAULT_SIZE, 1404, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1046,7 +1062,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         try {
             SAXParser parser = factory.newSAXParser();
             parser.parse(f, hd);
-            
+
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {
@@ -1067,8 +1083,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         int indexRow = this.TablaEmpXTienda.getSelectedRow();//obtener indexRow de la tabla productos.
         if (indexRow != -1) {
-            TiendaEmpleado tiendaEmp=eXtModel.getTe().get(indexRow);
-            
+            TiendaEmpleado tiendaEmp = eXtModel.getTe().get(indexRow);
+
             Repositorio rep = Repositorio.getInstance();
             rep.removeEmpFromTienda(tiendaEmp);
             this.TablaEmpXTienda.repaint();
@@ -1085,7 +1101,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             try {
                 int horas = Integer.parseInt(this.textHorasEmpleadoTienda.getText());
                 Repositorio rep = Repositorio.getInstance();
-                rep.insertEmpleadoEnTienda(tiendaAux, empleadoAux, horas);
+
+                TiendaEmpleado te = rep.getTiendaEmpleado(tiendaAux, empleadoAux);
+                if (te == null) {//Si la relacion no existe la creamos
+                    rep.insertEmpleadoEnTienda(tiendaAux, empleadoAux, horas);
+                } else {//Si la relacion ya existe, actualizamos las horas
+                    te.setHoras(horas);
+                }
 
                 this.eXtModel.setTiendaAnalizada(tiendaAux);
                 this.TablaEmpXTienda.revalidate();
@@ -1102,9 +1124,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         int indexRow = this.TablaProductosXTienda.getSelectedRow();//obtener indexRow de la tabla productos.
         if (indexRow != -1) {
-            Producto p = this.productosTienda.get(indexRow);
+            //Recuperar el objeto que represena la relacion
+            TiendaProducto tiendaProducto = pXtModel.getTp().get(indexRow);
             Repositorio rep = Repositorio.getInstance();
-            rep.removeProdFromTienda(p, this.productosTienda, tiendaAux);
+            //destruirlo en el repositorio (destruir el objeto y su representacion en BD.
+            rep.removeProdFromTienda(tiendaProducto);
+            //Actualizar vista de la tabla.
+            this.TablaProductosXTienda.repaint();
+            this.TablaProductosXTienda.revalidate();
         } else {
             this.mensajeError("No hay ningun producto seleccionado");
         }
@@ -1112,17 +1139,24 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     //Añade un producto a una tienda con su cantidad.
     private void buttonAddProductoATiendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddProductoATiendaActionPerformed
-        // TODO add your handling code here:
+
         if (tiendaAux != null && productoAux != null) {//Debe haber un producto y una tienda seleccionados.
             try {
                 int cantidad = Integer.parseInt(this.textCantidadProdAdd.getText());
-                Repositorio rep = Repositorio.getInstance();
-                rep.insertProductoEnTienda(tiendaAux, productoAux, cantidad);
+                Repositorio rep = Repositorio.getInstance();// 
+                //Si el producto ya está en la tienda, actualizamos cantidad, si no, insertamos.
+                TiendaProducto tp = rep.getTiendaProducto(tiendaAux, productoAux);
+                if (tp == null) {//Si la relacion no existe la creamos
+                    rep.insertProductoEnTienda(tiendaAux, productoAux, cantidad);
+                } else {//Si la relacion ya existe, actualizamos la cantiadad.
+                    tp.setCantidad(cantidad);
+                }
                 this.pXtModel.cambiarTienda(tiendaAux);
                 this.TablaProductosXTienda.revalidate();
                 this.TablaProductosXTienda.repaint();
             } catch (Exception ex) {
-                mensajeError("El numero de unidades debe de ser un valor entero y no puede estar vacio");
+                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                mensajeError(ex.getMessage() + "El numero de unidades debe de ser un valor entero y no puede estar vacio");
             }
         } else {
             mensajeError("Debe de seleccionar (click en las tablas) una tienda y un producto");
@@ -1136,8 +1170,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         Empleado emp = empleados.get(valor);
         if (JOptionPane.showConfirmDialog(null, "Realmente desea despedir a " + emp.getNombre() + " " + emp.getApellidos() + "?\nSe le eliminará permanentemente de todas las tiendas", "Confirmar despido", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
             rep.deleteEmpleado(emp, empleados);
-            if (tiendaAux != null) {
-                rep.getTiendaEmpleadoData(tiendaAux, empleadosTienda, horasEmpTienda);
+            if (tiendaAux != null) {//Si hay una tienda seleccionada hay que hacer cambios en su tabla de empleados, que estará visible.
+                //rep.getTiendaEmpleadoData(tiendaAux, empleadosTienda, horasEmpTienda);
             }
             TablaEmpleados.revalidate();
             TablaEmpleados.repaint();
@@ -1199,8 +1233,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         this.labelSeleccionTienda.setText(tiendaAux.getNombre() + "-" + tiendaAux.getCiudad() + " (" + tiendaAux.getProvincia() + ").");
         Repositorio rep = Repositorio.getInstance();
-        rep.getTiendaProductoData(tiendaAux, this.productosTienda, this.cantProdTienda);
-        rep.getTiendaEmpleadoData(tiendaAux, empleadosTienda, horasEmpTienda);
+       // rep.getTiendaProductoData(tiendaAux, this.productosTienda, this.cantProdTienda); XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        //rep.getTiendaEmpleadoData(tiendaAux, empleadosTienda, horasEmpTienda);
         //Actualizar datos
         this.pXtModel.cambiarTienda(tiendaAux);
         this.eXtModel.setTiendaAnalizada(tiendaAux);
@@ -1238,8 +1272,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
             Repositorio rep = Repositorio.getInstance();
             rep.deleteProducto(p, productos);
-            if (tiendaAux != null) {
-                rep.getTiendaProductoData(tiendaAux, productosTienda, cantProdTienda);
+            if (tiendaAux != null) {//Si hay tienda seleccionada....
+                ///rep.getTiendaProductoData(tiendaAux, productosTienda, cantProdTienda);xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             }
             //Actualizar tablas.
             this.TableProductosOferta.revalidate();
@@ -1274,12 +1308,34 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         productoAux = productos.get(row);
         this.labelProductoSeleccionado.setText(productoAux.getNombre() + " (id: " + productoAux.getIdentificador() + ").");
     }//GEN-LAST:event_TableProductosOfertaMouseClicked
-    
+
+    private void TablaEmpXTiendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaEmpXTiendaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TablaEmpXTiendaMouseClicked
+
+    private void ButtonInformeStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonInformeStockActionPerformed
+        // TODO add your handling code here:
+        if(tiendaAux!=null){
+            //Creacion de un objeto StockTienda para enviar a la nueva ventana.
+            ArrayList<ProductoParaInforme> productos=new ArrayList();
+            for( TiendaProducto tp: tiendaAux.getProductosXTienda()){
+                Producto p=tp.getProducto();
+                ProductoParaInforme ppi=new ProductoParaInforme(p.getId(),p.getNombre(),p.getDescripcion(),p.getPrecio(),tp.getCantidad());
+                productos.add(ppi);
+            }
+            
+            InformeDeStockJFrame infFrame=new InformeDeStockJFrame(tiendaAux.getNombre(),productos);
+            infFrame.setVisible(true);
+        }else{
+            this.mensajeError("Debe seleccionar una tienda para obtener el informe de Stock");
+        }
+    }//GEN-LAST:event_ButtonInformeStockActionPerformed
+
     private void vaciarCamposTienda() {
         this.TextNombreTienda.setText("");
         this.TextCiudad.setText("");
     }
-    
+
     private void vaciarCamposProducto() {
         this.textIdProducto.setText("");
         this.textProdNombre.setText("");
@@ -1326,6 +1382,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAddProductoCatalogo;
     private javax.swing.JButton ButtonBorrarProductoDeCatalogo;
+    private javax.swing.JButton ButtonInformeStock;
     private javax.swing.JComboBox<String> ComboProvincia;
     private javax.swing.JLabel LabelTiendaSeleccionada;
     private javax.swing.JTable TablaClientes;
@@ -1423,13 +1480,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return prov;
     }
-    
+
     private void addProvinciasToComboBox(provincias prov) {
         System.out.println(prov);
-        
+
         for (Provincia p : prov.provincias) {
             try {
                 this.ComboProvincia.addItem(p.getNome());
@@ -1438,28 +1495,28 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void setWithColumns(JTable tabla, int[] columnas) {
-        
+
         for (int i = 0; i < columnas.length; i++) {
             TableColumn column = tabla.getColumnModel().getColumn(i); //cogemos la columna que corresponde al indice.
             column.setPreferredWidth(columnas[i]); //aplicamos el valor que corresponde en el array
 
         }
     }
-    
+
     private void mensajeError(String msj) {
         JOptionPane.showMessageDialog(rootPane, msj, "Error", HEIGHT);
     }
-    
+
     private void vaciarProducto() {
         this.productoAux = null;
         this.labelProductoSeleccionado.setText("No hay ningun producto seleccionado");
     }
-    
+
     private void vaciarEmpleado() {
         this.empleadoAux = null;
         this.labelEmpleadoSeleccionado.setText("No hay ningun empleado seleccionado");
     }
-    
+
 }

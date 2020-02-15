@@ -89,60 +89,6 @@ public class Repositorio {//Clase singleton para operar con datos.
         return clientes;
     }
 
-    //DE UNA TIENDA CONCRETA
-    void getTiendaProductoData(Tienda tienda, ArrayList<Producto> productosTienda, ArrayList<Integer> cantProdTienda) {
-//        //Vaciamos los arrays, para rellenarlos de nuevo. 
-//        productosTienda.clear();
-//        cantProdTienda.clear();
-//        //Obtener datos de la BD.
-//        String sql = "SELECT * FROM produtos,produtos_tendas WHERE produtos_tendas.idTenda=? AND produtos.id=produtos_tendas.idproduto";
-//        try {
-//            PreparedStatement pstmt = con.prepareStatement(sql);
-//            pstmt.setInt(1, tienda.id);//Obtener los productos y cantidades referentes a una tienda en concreto, por id de tienda. 
-//            ResultSet rs = pstmt.executeQuery();
-//            while (rs.next()) {//Recuperar datos del resultset.
-//                int id = rs.getInt("id");
-//                String nome = rs.getString("nome");
-//                String descripcion = rs.getString("descripcion");
-//                Float prezo = rs.getFloat("prezo");
-//                int cantidad = rs.getInt("cantidad");
-//                Producto p = new Producto(id, nome, descripcion, prezo);
-//                //Añadimos los datos a los arraylists.
-//                productosTienda.add(p);
-//                cantProdTienda.add(cantidad);
-//
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Repositorio.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-    }
-
-    void getTiendaEmpleadoData(Tienda tiendaAux, ArrayList<Empleado> empleadosTienda, ArrayList<Integer> horasEmpTienda) {
-//        //Vaciamos los arrays, para rellenarlos de nuevo. 
-//        empleadosTienda.clear();
-//        horasEmpTienda.clear();
-//        //Obtener datos de la BD.
-//        String sql = "SELECT * FROM empregados,empleados_tendas WHERE empleados_tendas.idTenda=? AND empregados.id=empleados_tendas.idEmpregado";
-//        try {
-//            PreparedStatement pstmt = con.prepareStatement(sql);
-//            pstmt.setLong(1, tiendaAux.id);//Obtener los productos y cantidades referentes a una tienda en concreto, por id de tienda. 
-//            ResultSet rs = pstmt.executeQuery();
-//            while (rs.next()) {//Recuperar datos del resultset.
-//                int id = rs.getInt("id");
-//                String nome = rs.getString("nombre");
-//                String apelidos = rs.getString("apelidos");
-//                int horas = rs.getInt("horas");
-//                Empleado e = new Empleado(id, nome, apelidos);
-//                //Añadimos los datos a los arraylists.
-//                empleadosTienda.add(e);
-//                horasEmpTienda.add(horas);
-//
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Repositorio.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-    }
-
 /// OPERACIONES SOBRE TIENDAS 
 
     /*CREAR UNA TIENDA*/
@@ -155,11 +101,11 @@ public class Repositorio {//Clase singleton para operar con datos.
 
     /*ELIMINAR UNA TIENDA*/
     void deleteTienda(Tienda tienda, ArrayList<Tienda> tiendas) {
-        Long id = tienda.getId();
         trans = session.beginTransaction();
-        Query q = session.createQuery("DELETE FROM Tienda WHERE id= :id");
-        q.setLong("id", id);
-        q.executeUpdate();
+        tienda.getEmpleadosXTienda().clear();
+        tienda.getProductosXTienda().clear();
+        session.save(tienda);
+        session.delete(tienda);
         trans.commit();
         tiendas.remove(tienda);
     }
@@ -182,13 +128,21 @@ public class Repositorio {//Clase singleton para operar con datos.
     }
 
     void deleteProducto(Producto p, ArrayList<Producto> productos) {
-        Long id = p.getIdentificador();
         trans = session.beginTransaction();
-        Query q = session.createQuery("DELETE FROM Producto WHERE id= :id");
-        q.setLong("id", id);
-        q.executeUpdate();
+
+        List<TiendaProducto> tiendaProducto = p.getTiendasQueTienenElProducto();
+        for(TiendaProducto tp:tiendaProducto){
+            tp.getTienda().getProductosXTienda().remove(tp);//De cada tienda borramos la relacion.
+            session.save(tp.getTienda());//Actualizamos la tienda
+        }
+        trans.commit();
+        trans = session.beginTransaction();
+        p.getTiendasQueTienenElProducto().clear();//Borrar todos los objetos de asociacion de producto a la tienda.
+        session.save(p);
+        session.delete(p);
         trans.commit();
         productos.remove(p);
+
     }
 
     void insertEmpleado(Empleado emp, ArrayList<Empleado> empleados) {
@@ -209,12 +163,32 @@ public class Repositorio {//Clase singleton para operar con datos.
     }
 
     void deleteEmpleado(Empleado emp, ArrayList<Empleado> empleados) {
+//        trans = session.beginTransaction();
+//        Query q = session.createQuery("DELETE FROM Empleado where id= :id");
+//        q.setLong("id", emp.getId());
+//        q.executeUpdate();
+//        trans.commit();
+//        empleados.remove(emp);
+        
+        
+        
+        
+        
         trans = session.beginTransaction();
-        Query q = session.createQuery("DELETE FROM Empleado where id= :id");
-        q.setLong("id", emp.getId());
-        q.executeUpdate();
+
+        List<TiendaEmpleado> tiendaEmpleado = emp.getTiendasDelEmpleado();
+        for(TiendaEmpleado te:tiendaEmpleado){
+            te.getTienda().getEmpleadosXTienda().remove(te);//De cada tienda borramos la relacion con el empleado.
+            session.save(te.getTienda());//Actualizamos la tienda
+        }
+        trans.commit();
+        trans = session.beginTransaction();
+        emp.getTiendasDelEmpleado().clear();//Borrar todos los objetos de asociacion de producto a la tienda.
+        session.save(emp);
+        session.delete(emp);
         trans.commit();
         empleados.remove(emp);
+        
     }
 // Actuar sobre tiendas concretas
 
@@ -227,40 +201,26 @@ public class Repositorio {//Clase singleton para operar con datos.
         session.save(productoAux);
         session.save(tp);
         trans.commit();
-//        int indiceProd = productosTienda.indexOf(productoAux);
-//        if (indiceProd != -1) {//Si el producto existe ya en el listado, cambiamos el valor en el ArrayList de cantidades de 
-//            cantProdTienda.set(indiceProd, cantidad);//usamos el indice del producto, cambiamos el valor a "cantidad".
-//        } else {//Si aun no tiene el producto, lo añade al final de ambos arrays.
-//            cantProdTienda.add(cantidad);
-//            productosTienda.add(productoAux);
-//        }
-//        //Actualizamos en base de datos la tabla que recoge relaciones tienda-producto con REPLACE: Si ya existe, reemplaza, si no, inserta.
-//        String sql = "REPLACE INTO produtos_tendas(idTenda,idproduto,cantidad) VALUES(?,?,?)";
-//        try {
-//            PreparedStatement pstmt = con.prepareStatement(sql);//Necesitamos la key de insercion.
-//            pstmt.setLong(1, tiendaAux.getId());
-//            pstmt.setLong(2, productoAux.getIdentificador());
-//            pstmt.setInt(3, cantidad);
-//            pstmt.execute();
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Repositorio.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        this.getTiendaProductoData(tiendaAux, productosTienda, cantProdTienda);
     }
 
-    void removeProdFromTienda(Producto p, ArrayList<Producto> productosTienda, Tienda tienda) {
-        String sql2 = "DELETE FROM produtos_tendas WHERE idproduto=? and idTenda=?";//Borrar todas las relaciones de tiendas con el producto.
-//        try {//Borrar de base de datos.
-//            PreparedStatement pstmt = con.prepareStatement(sql2);
-//            pstmt.setLong(1, p.getIdentificador());
-//            pstmt.setLong(2, tienda.getId());
-//            pstmt.execute();
-//            //Borrar del ArrayList
-//            productosTienda.remove(p);//Añadir la tienda al arraylist.
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Repositorio.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+    void removeProdFromTienda(TiendaProducto tiendaProd) {
+        Tienda t = tiendaProd.getTienda();
+        Producto p = tiendaProd.getProducto();
+        //Eliminamos el objeto que contiene la relacion de la lista de la tienda y de la del producto.
+        if (p.getTiendasQueTienenElProducto().remove(tiendaProd)) {
+            System.out.println("Eliminado");
+        };
+        if (t.getProductosXTienda().remove(tiendaProd)) {
+            System.out.println("elminado de empleados");
+        };
+        //Actualizamos la BD con Hibernate
+        trans = session.beginTransaction();
+        //Guardar tienda, produducto sin el objeto de relacion
+        session.save(p);
+        session.save(t);
+        //Borrar el objeto relacion. 
+        session.delete(tiendaProd);
+        trans.commit();
     }
 
     void insertEmpleadoEnTienda(Tienda tiendaAux, Empleado empleadoAux, int horas) {
@@ -278,9 +238,9 @@ public class Repositorio {//Clase singleton para operar con datos.
     }
 
     void removeEmpFromTienda(TiendaEmpleado tiendaEmp) {
-//        //Recibimos la tienda y el empleado, hay que borrar el empleado de la tienda, la tienda del empleado y eliminar el objeto que los vincula
-        Tienda t=tiendaEmp.getTienda();
-        Empleado e=tiendaEmp.getEmpleado();
+//        //Recibimos el objeto que representa la relacion entre tienda y empleado y que contiene ambos objetos
+        Tienda t = tiendaEmp.getTienda();
+        Empleado e = tiendaEmp.getEmpleado();
         e.getTiendasDelEmpleado().remove(tiendaEmp);
         t.getEmpleadosXTienda().remove(tiendaEmp);
         trans = session.beginTransaction();
@@ -288,7 +248,6 @@ public class Repositorio {//Clase singleton para operar con datos.
         session.save(t);
         session.delete(tiendaEmp);
         trans.commit();
-        
 
     }
 /// OPERACIONES SOBRE CLIENTES
@@ -323,6 +282,7 @@ public class Repositorio {//Clase singleton para operar con datos.
         provincias provsOBJ = new provincias();
         //Recuperar las provincias desde base de datos.
         Query q = session.createQuery("SELECT prov FROM Provincia prov");
+
         provsOBJ.provincias = q.list();//Recuperamos las provincias de la base de datos (si está llena).
         if (provsOBJ.provincias.size() == 0) {//Si no hay datos en BD, los tomamos del JSON
             Gson gson = new Gson();
@@ -349,5 +309,29 @@ public class Repositorio {//Clase singleton para operar con datos.
         }
         trans.commit();//Hacer el commit
 
+    }
+
+    TiendaProducto getTiendaProducto(Tienda tiendaAux, Producto productoAux) {
+        Long tiendaId = tiendaAux.getId();
+        Long productoId = productoAux.getId();
+        System.out.println("id tienda" + tiendaId);
+        System.out.println("id producto" + productoId);
+        Query q = session.createQuery("SELECT tp FROM TiendaProducto tp WHERE tienda= :tid AND producto= :pid");
+        q.setLong("tid", tiendaId);
+        q.setLong("pid", productoId);
+        TiendaProducto rtdo = (TiendaProducto) q.uniqueResult();
+
+        return rtdo;
+    }
+
+    TiendaEmpleado getTiendaEmpleado(Tienda tiendaAux, Empleado empleadoAux) {
+        Long tiendaId = tiendaAux.getId();
+        Long empleadoId = empleadoAux.getId();
+        Query q = session.createQuery("SELECT tp FROM TiendaEmpleado tp WHERE tienda= :tid AND empleado= :eid");
+        q.setLong("tid", tiendaId);
+        q.setLong("eid", empleadoId);
+        TiendaEmpleado rtdo = (TiendaEmpleado) q.uniqueResult();
+
+        return rtdo;
     }
 }
