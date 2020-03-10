@@ -47,6 +47,13 @@ public class Configuracion {
     public void setC(String c) {
         this.c = c;
     }
+
+    @Override
+    public String toString() {
+        return "\n-------------------------------------------------------------\n"
+                + "Configuracion{\n" + "hibernate:\t" + hibernate.toString() + ", \ndbConnection:\t" + dbConnection.toString() + ","
+                + "\n------------------------------------------------------------\n }";
+    }
     
     
     

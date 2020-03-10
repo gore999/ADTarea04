@@ -13,17 +13,13 @@ import com.google.gson.annotations.SerializedName;
  */
 public class hibernate{
     
-    @SerializedName("driver")
-        String driver="com.mysql.cj.jdbc.Driver";
+        String driver;
     
-    @SerializedName("dialect")
-        String dialect="org.hibernate.dialect.MySQL5Dialect";
+        String dialect;
     
-    @SerializedName("HBM2DDL_AUTO")
-        String HBM2DDL_AUTO="update";
+        String HBM2DDL_AUTO;
     
-    @SerializedName("SHOW_SQL")
-        boolean SHOW_SQL= true;
+        boolean SHOW_SQL;
 
         public hibernate() {
         }

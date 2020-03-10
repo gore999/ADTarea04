@@ -13,16 +13,12 @@ import com.google.gson.annotations.SerializedName;
  */
 public class dbConnection {
 
-    @SerializedName("address")
-    String address = "localhost";
-    @SerializedName("port")
-    String port = "3306";
-    @SerializedName("name")
-    String name = "hibernate";
-    @SerializedName("user")
-    String user = "root";
-    @SerializedName("password")
-    String password = "";
+    String address;
+    String port;
+    String name;
+    String user;
+    String password ;
+    
     public String getAddress() {
         return address;
     }

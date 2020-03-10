@@ -1246,6 +1246,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void buttonDeleteTiendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteTiendaActionPerformed
         // TODO add your handling code here:
+        
         int indexRowTienda = TableTiendas.getSelectedRow();
         Tienda t = tiendas.get(indexRowTienda);
         Repositorio rep = Repositorio.getInstance();
@@ -1265,6 +1266,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      */
     private void ButtonBorrarProductoDeCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBorrarProductoDeCatalogoActionPerformed
         // TODO add your handling code here:
+        if(!TableProductosOferta.getSelectionModel().isSelectionEmpty()){
         Producto p = productos.get(TableProductosOferta.getSelectedRow());//Tomamos el producto del arraylist que corresponde al indice de la indexRow seleccionada.
         if (JOptionPane.showConfirmDialog(null, "Realmente desea eliminar " + p.getNombre() + " del catalogo?\nSe eliminará permanentemente de todas las tiendas", "Confirmar borrado", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
             if (productoAux.equals(p)) {
@@ -1280,6 +1282,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             this.TablaProductosXTienda.revalidate();
             this.TableProductosOferta.repaint();
             this.TablaProductosXTienda.repaint();
+        }
+        }else{
+            this.mensajeError("Debe seleccionar un producto");
         }
     }//GEN-LAST:event_ButtonBorrarProductoDeCatalogoActionPerformed
 
