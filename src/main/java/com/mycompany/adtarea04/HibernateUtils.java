@@ -39,16 +39,15 @@ public class HibernateUtils {
             jsonConf=null;
             BufferedReader br;
             try {
-                br = new BufferedReader(new InputStreamReader(new FileInputStream("provincias.json"), "UTF-8")); //Leer el archivo en utf
+                br = new BufferedReader(new InputStreamReader(new FileInputStream("config.json"), "UTF-8")); //Leer el archivo en utf
                 jsonConf = gson.fromJson(br, Configuracion.class);
+                System.out.println(jsonConf);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(HibernateUtils.class.getName()).log(Level.SEVERE, null, ex);
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(HibernateUtils.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
-            
+  
             Configuration conf = new Configuration();
             Properties props = new Properties();
             //Propiedades de conexion red
